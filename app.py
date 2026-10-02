@@ -5,7 +5,7 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from transformers import pipeline
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 
 st.set_page_config(
@@ -51,13 +51,12 @@ knowledge_base = load_knowledge_base()
 # ---------------------------------
 @st.cache_resource
 def load_model():
-    return pipeline(
-        "text2text-generation",
-        model="google/flan-t5-small"
-    )
+    tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
+    model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
+    return tokenizer, model
 
 
-llm = load_model()
+tokenizer, model = load_model()
 
 
 # ---------------------------------
@@ -190,13 +189,23 @@ Official source context:
 Answer:
 """
 
-    result = llm(
-        prompt,
-        max_new_tokens=80,
-        do_sample=False
-    )
+   inputs = tokenizer(
+    prompt,
+    return_tensors="pt",
+    truncation=True,
+    max_length=512
+)
 
-    answer = result[0]["generated_text"].strip()
+outputs = model.generate(
+    **inputs,
+    max_new_tokens=80,
+    do_sample=False
+)
+
+answer = tokenizer.decode(
+    outputs[0],
+    skip_special_tokens=True
+).strip()
 
     return answer
 
