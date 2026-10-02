@@ -77,10 +77,27 @@ Do not enter PAN, Aadhaar, account numbers, OTPs, email addresses, phone numbers
 - The assistant does not calculate or compare investment returns.
 - The assistant does not provide personalised financial advice.
 
+## Working Prototype
+
+Live app:
+
+https://groww-mf-faq-assistant-6c3fgonnfkzm685msffeiw.streamlit.app/
+
 ## Setup
 
-Setup instructions will be added with the working prototype.
+To run the project locally:
+
+1. Clone this repository.
+2. Install the required Python packages:
+
+   pip install -r requirements.txt
+
+3. Run the Streamlit app:
+
+   streamlit run app.py
+
+The app reads factual scheme information from `knowledge_base.csv` and returns answers with official source links.
 
 ## Project Status
 
-Work in progress.
+Working prototype completed.
