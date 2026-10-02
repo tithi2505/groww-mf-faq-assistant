@@ -1,1 +1,23 @@
 source_id,source_type,scheme,title,url
+1,AMC,HDFC Large Cap Fund,HDFC Large Cap Fund Direct Plan,https://www.hdfcfund.com/explore/mutual-funds/hdfc-large-cap-fund/direct
+2,AMC,HDFC Flexi Cap Fund,HDFC Flexi Cap Fund Direct Plan,https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct
+3,AMC,HDFC ELSS Tax Saver Fund,HDFC ELSS Tax Saver Fund Direct Plan,https://www.hdfcfund.com/explore/mutual-funds/hdfc-elss-tax-saver-fund/direct
+4,AMC,General,HDFC Mutual Fund Factsheets,https://www.hdfcfund.com/mutual-funds/factsheets
+5,AMC,General,HDFC Mutual Fund KIM Documents,https://www.hdfcfund.com/mutual-funds/fund-documents/kim
+6,AMC,General,HDFC Mutual Fund SID Documents,https://www.hdfcfund.com/mutual-funds/fund-documents/sid
+7,AMC,General,HDFC Mutual Fund Scheme Summary,https://www.hdfcfund.com/mutual-funds/fund-documents/scheme-summary
+8,AMC,General,HDFC Total Expense Ratio Reports,https://www.hdfcfund.com/statutory-disclosure/total-expense-ratio-of-mutual-fund-schemes/reports
+9,AMC,General,HDFC Expense Ratio Notices,https://www.hdfcfund.com/statutory-disclosure/total-expense-ratio-of-mutual-fund-schemes/notices
+10,AMC,General,HDFC Annual Riskometer Disclosures,https://www.hdfcfund.com/statutory-disclosure/riskometers
+11,AMC,General,HDFC Monthly Portfolio Disclosures,https://www.hdfcfund.com/statutory-disclosure/portfolio/monthly-portfolio
+12,AMC,General,HDFC Consolidated Account Statement,https://www.hdfcfund.com/services/consolidated-account-statement
+13,AMC,General,HDFC Request Statement Page,https://www.hdfcfund.com/services/additional-info/request-statement
+14,AMC,General,HDFC Smart Account Statement FAQs,https://www.hdfcfund.com/services/faqs/smart-account-statement
+15,AMC,General,HDFC Capital Gain Statement Guide,https://www.hdfcfund.com/learn/blog/how-get-capital-gain-statement-mutual-fund-schemes-india
+16,AMC,General,HDFC Statutory Disclosures,https://www.hdfcfund.com/statutory-disclosure
+17,SEBI,General,SEBI Riskometer Guide,https://investor.sebi.gov.in/hindi/riskometer.html
+18,SEBI,ELSS,SEBI Guide to ELSS,https://investor.sebi.gov.in/elss.html
+19,SEBI,General,SEBI Mutual Fund Filings,https://www.sebi.gov.in/filings/mutual-funds.html
+20,SEBI,General,SEBI Key Information Memorandum Repository,https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doMutualFund=yes&mftype=3
+21,SEBI,General,SEBI Regular and Direct Mutual Funds Guide,https://investor.sebi.gov.in/regular_and_direct_mutual_funds.html
+22,AMFI,General,AMFI Download Consolidated Account Statement,https://www.amfiindia.com/online-center/download-cas
