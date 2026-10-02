@@ -165,6 +165,48 @@ def retrieve_fact(question):
 # LLM answer generation
 # ---------------------------------
 def generate_answer(question, retrieved_fact):
+    prompt = f"""
+You are a facts-only mutual fund FAQ assistant.
+
+Answer the user's question using ONLY the factual context provided below.
+
+Rules:
+- Do not give investment advice.
+- Do not recommend buying or selling.
+- Do not compare or predict returns.
+- Do not invent facts.
+- Keep the answer concise.
+- Maximum 3 sentences.
+- If the context does not answer the question, say that the fact is not available in the provided source.
+
+User question:
+{question}
+
+Official source context:
+{retrieved_fact['content']}
+
+Answer:
+"""
+
+    inputs = tokenizer(
+        prompt,
+        return_tensors="pt",
+        truncation=True,
+        max_length=512
+    )
+
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=80,
+        do_sample=False
+    )
+
+    answer = tokenizer.decode(
+        outputs[0],
+        skip_special_tokens=True
+    ).strip()
+
+    return answer
 
     prompt = f"""
 You are a facts-only mutual fund FAQ assistant.
