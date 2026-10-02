@@ -1,15 +1,12 @@
 import streamlit as st
 import csv
 import re
-
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-
-
 st.set_page_config(
     page_title="Mutual Fund Facts Assistant",
+    page_icon="📘",
     layout="centered"
 )
 
@@ -23,10 +20,9 @@ HDFC_FACTSHEET_LINK = (
     "https://www.hdfcfund.com/mutual-funds/factsheets"
 )
 
-
-# ---------------------------------
+# -----------------------------
 # Load knowledge base
-# ---------------------------------
+# -----------------------------
 @st.cache_data
 def load_knowledge_base():
     rows = []
@@ -46,25 +42,10 @@ def load_knowledge_base():
 knowledge_base = load_knowledge_base()
 
 
-# ---------------------------------
-# Load LLM
-# ---------------------------------
-@st.cache_resource
-def load_model():
-    tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
-    model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
-    return tokenizer, model
-
-
-tokenizer, model = load_model()
-
-
-# ---------------------------------
+# -----------------------------
 # Safety checks
-# ---------------------------------
+# -----------------------------
 def contains_pii(text):
-    text_lower = text.lower()
-
     pii_words = [
         "pan number",
         "aadhaar",
@@ -76,6 +57,8 @@ def contains_pii(text):
         "email address"
     ]
 
+    text_lower = text.lower()
+
     if any(word in text_lower for word in pii_words):
         return True
 
@@ -83,9 +66,8 @@ def contains_pii(text):
     if re.search(r"\b[A-Z]{5}[0-9]{4}[A-Z]\b", text.upper()):
         return True
 
-    # Aadhaar-like 12 digit number
+    # Aadhaar-like 12-digit number
     digits = re.sub(r"\D", "", text)
-
     if len(digits) == 12:
         return True
 
@@ -130,22 +112,14 @@ def is_performance_question(text):
     return any(phrase in text for phrase in phrases)
 
 
-# ---------------------------------
-# Retrieval
-# ---------------------------------
-def retrieve_fact(question):
-    documents = [
-        row["search_text"]
-        for row in knowledge_base
-    ]
+# -----------------------------
+# Retrieve factual answer
+# -----------------------------
+def retrieve_answer(question):
+    documents = [row["search_text"] for row in knowledge_base]
 
-    vectorizer = TfidfVectorizer(
-        stop_words="english"
-    )
-
-    vectors = vectorizer.fit_transform(
-        documents + [question]
-    )
+    vectorizer = TfidfVectorizer(stop_words="english")
+    vectors = vectorizer.fit_transform(documents + [question])
 
     similarities = cosine_similarity(
         vectors[-1],
@@ -155,106 +129,16 @@ def retrieve_fact(question):
     best_index = similarities.argmax()
     best_score = similarities[best_index]
 
+    # Avoid guessing if retrieval confidence is too low
     if best_score < 0.18:
         return None
 
     return knowledge_base[best_index]
 
 
-# ---------------------------------
-# LLM answer generation
-# ---------------------------------
-def generate_answer(question, retrieved_fact):
-    prompt = f"""
-You are a facts-only mutual fund FAQ assistant.
-
-Answer the user's question using ONLY the factual context provided below.
-
-Rules:
-- Do not give investment advice.
-- Do not recommend buying or selling.
-- Do not compare or predict returns.
-- Do not invent facts.
-- Keep the answer concise.
-- Maximum 3 sentences.
-- If the context does not answer the question, say that the fact is not available in the provided source.
-
-User question:
-{question}
-
-Official source context:
-{retrieved_fact['content']}
-
-Answer:
-"""
-
-    inputs = tokenizer(
-        prompt,
-        return_tensors="pt",
-        truncation=True,
-        max_length=512
-    )
-
-    outputs = model.generate(
-        **inputs,
-        max_new_tokens=80,
-        do_sample=False
-    )
-
-    answer = tokenizer.decode(
-        outputs[0],
-        skip_special_tokens=True
-    ).strip()
-
-    return answer
-
-    prompt = f"""
-You are a facts-only mutual fund FAQ assistant.
-
-Answer the user's question using ONLY the factual context provided below.
-
-Rules:
-- Do not give investment advice.
-- Do not recommend buying or selling.
-- Do not compare or predict returns.
-- Do not invent facts.
-- Keep the answer concise.
-- Maximum 3 sentences.
-- If the context does not answer the question, say that the fact is not available in the provided source.
-
-User question:
-{question}
-
-Official source context:
-{retrieved_fact['content']}
-
-Answer:
-"""
-
-   inputs = tokenizer(
-    prompt,
-    return_tensors="pt",
-    truncation=True,
-    max_length=512
-)
-
-outputs = model.generate(
-    **inputs,
-    max_new_tokens=80,
-    do_sample=False
-)
-
-answer = tokenizer.decode(
-    outputs[0],
-    skip_special_tokens=True
-).strip()
-
-    return answer
-
-
-# ---------------------------------
-# Main answering logic
-# ---------------------------------
+# -----------------------------
+# Generate response
+# -----------------------------
 def answer_question(question):
 
     if contains_pii(question):
@@ -277,15 +161,15 @@ def answer_question(question):
     if is_performance_question(question):
         return (
             "I do not calculate, predict or compare mutual fund returns. "
-            "You can refer to the official HDFC Mutual Fund factsheets "
-            "for published scheme information.\n\n"
+            "You can refer to the official HDFC Mutual Fund factsheets for "
+            "published scheme information.\n\n"
             f"Source: {HDFC_FACTSHEET_LINK}\n\n"
             f"Last updated from sources: {LAST_UPDATED}"
         )
 
-    retrieved_fact = retrieve_fact(question)
+    result = retrieve_answer(question)
 
-    if retrieved_fact is None:
+    if result is None:
         return (
             "I could not find this fact in the selected source set. "
             "Please ask about the expense ratio, exit load, minimum SIP, "
@@ -294,21 +178,16 @@ def answer_question(question):
             f"Last updated from sources: {LAST_UPDATED}"
         )
 
-    generated_answer = generate_answer(
-        question,
-        retrieved_fact
-    )
-
     return (
-        f"{generated_answer}\n\n"
-        f"Source: {retrieved_fact['source_url']}\n\n"
+        f"{result['content']}\n\n"
+        f"Source: {result['source_url']}\n\n"
         f"Last updated from sources: {LAST_UPDATED}"
     )
 
 
-# ---------------------------------
+# -----------------------------
 # UI
-# ---------------------------------
+# -----------------------------
 st.title("Mutual Fund Facts Assistant")
 
 st.write(
@@ -331,22 +210,14 @@ st.markdown(
 """
 )
 
-question = st.chat_input(
-    "Ask a mutual fund fact..."
-)
+question = st.chat_input("Ask a mutual fund fact...")
 
 if question:
-
     with st.chat_message("user"):
         st.write(question)
 
     with st.chat_message("assistant"):
-
-        with st.spinner("Checking official sources..."):
-            response = answer_question(question)
-
-        st.write(response)
-
+        st.write(answer_question(question))
 
 st.divider()
 
