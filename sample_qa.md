@@ -11,6 +11,7 @@ All factual answers use official AMC, SEBI or AMFI sources.
 
 **Source:** https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct
 
+**Last updated from sources:** 2 October 2026
 ---
 
 ## Q2
@@ -20,6 +21,7 @@ All factual answers use official AMC, SEBI or AMFI sources.
 
 **Source:** https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct
 
+**Last updated from sources:** 2 October 2026
 ---
 
 ## Q3
@@ -29,6 +31,7 @@ All factual answers use official AMC, SEBI or AMFI sources.
 
 **Source:** https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct
 
+**Last updated from sources:** 2 October 2026
 ---
 
 ## Q4
@@ -38,6 +41,7 @@ All factual answers use official AMC, SEBI or AMFI sources.
 
 **Source:** https://www.hdfcfund.com/explore/mutual-funds/hdfc-elss-tax-saver-fund/direct
 
+**Last updated from sources:** 2 October 2026
 ---
 
 ## Q5
@@ -47,6 +51,7 @@ All factual answers use official AMC, SEBI or AMFI sources.
 
 **Source:** https://www.hdfcfund.com/explore/mutual-funds/hdfc-elss-tax-saver-fund/direct
 
+**Last updated from sources:** 2 October 2026
 ---
 
 ## Q6
@@ -56,6 +61,7 @@ All factual answers use official AMC, SEBI or AMFI sources.
 
 **Source:** https://www.hdfcfund.com/explore/mutual-funds/hdfc-large-cap-fund/direct
 
+**Last updated from sources:** 2 October 2026
 ---
 
 ## Q7
@@ -65,6 +71,7 @@ All factual answers use official AMC, SEBI or AMFI sources.
 
 **Educational source:** https://investor.sebi.gov.in/regular_and_direct_mutual_funds.html
 
+**Last updated from sources:** 2 October 2026
 ---
 
 ## Q8
@@ -73,3 +80,5 @@ All factual answers use official AMC, SEBI or AMFI sources.
 **Answer:** I cannot predict or compare which scheme will provide better future returns. I can provide factual scheme information and direct you to the official fund factsheets.
 
 **Source:** https://www.hdfcfund.com/mutual-funds/factsheets
+
+**Last updated from sources:** 2 October 2026
